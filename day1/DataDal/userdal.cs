@@ -23,6 +23,8 @@ namespace day1.Controllers
             IQueryable<userinfo> list = from b in cxt.uinfo
                                         where (b.uname.Equals(uname))
                                         select b;
+
+            
             return list.ToList().Count();
         }
 

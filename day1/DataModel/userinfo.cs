@@ -16,5 +16,8 @@ namespace day1.Controllers
         public string pwd { get; set; }
         public string uemail { get; set; }
 
+
+        public int MyProperty { get; set; }
+
     }
 }
