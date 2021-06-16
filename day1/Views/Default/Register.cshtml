@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>用户注册</h2>
+
+<table class="table">
+    <tr>
+        <td>用户名：</td>
+        <td>
+            <input id="uname" type="text" onchange="unique()"/>
+            <label></label>
+        </td>
+    </tr>
+    <tr>
+        <td>显示名：</td>
+        <td>
+            <input id="xname" type="text"/>
+            <label></label>
+        </td>
+    </tr>
+    <tr>
+        <td>密码：</td>
+        <td>
+            <input id="pwd" type="password"/>
+        </td>
+    </tr>
+    <tr>
+        <td>确认密码：</td>
+        <td>
+            <input id="qrpwd" type="password"/>
+            <label></label>
+        </td>
+    </tr>
+    <tr>
+        <td>邮箱：</td>
+        <td>
+            <input id="uemail" type="text"/>
+        </td>
+    </tr>
+    <tr>
+        <td>验证码：</td>
+        <td>
+            <input id="code" type="text"/>
+            <img src="/Default/validate" onclick="this.src=this.src+'?'"/>
+            <a href="javascript:0" onclick="change()">看不清，换一张</a>
+        </td>
+    </tr>
+    <tr>
+        <td><input type="checkbox"/>我同意<a>《用户注册协议》</a></td>
+        <td><input id="btn1" type="button" value="注册" onclick="save()"/></td>
+    </tr>
+</table>
+
+@section scripts{
+    
+    <script>
+
+        function change() {
+            var img = document.getElementsByTagName('img')[0];
+            img.src = img.src + "?";
+        }
+
+        function unique()
+        {
+            var uname = $('#uname').val();
+
+            $.ajax({
+
+                url: '/Default/asd?uname=' + uname,
+                type: 'GET',
+                success: function (data) {
+
+                    if (data > 0) {
+                        $('#uname').next().text('用户名已经存在');
+                        return;
+                    }
+                }
+
+            });
+        }
+
+        /*
+         *注册
+         */
+        function save() {
+            
+            var d = {};
+            d.uname = $('#uname').val();
+            d.xname = $('#xname').val();
+            d.pwd = $('#pwd').val();
+            d.uemail = $('#uemail').val();
+            d.code = $('#code').val();
+
+            if ($('#pwd').val() != $('#qrpwd').val()) {
+                $('#qrpwd').next().text('两次密码不一致');
+                return;
+            }
+            if ($('#uname').val() == "") {
+                $('#uname').next().text('用户名不能为空');
+                return;
+            }
+            if ($('#xname').val() == "") {
+                $('#uname').next().text('显示名不能为空');
+                return;
+            }
+
+            //var uname = $('#uname').val();
+
+            //$.ajax({
+
+            //    url: '/Default/asd?uname=' + uname,
+            //    type: 'GET',
+            //    success: function (data) {
+
+            //        if (data < 0) {
+            //            $('#uname').next().text('用户名已经存在');
+                        
+            //        }
+            //    }
+
+            //});
+
+            $.ajax({
+
+                url: '/Default/zc',
+                type: 'POST',
+                data: d,
+                success: function (data) {
+                    if (data == "-1") {
+                        alert('验证码输入错误');
+                    }
+                    else {
+                        alert('注册成功');
+                    }
+                }
+            });
+        }
+    </script>
+    
+    };
+
