@@ -18,6 +18,7 @@ namespace day1.Controllers
 
 
         public int MyProperty { get; set; }
+        public int mptyu { get; set; }
 
     }
 }
